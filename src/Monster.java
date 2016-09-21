@@ -1,7 +1,7 @@
 /**
  * Created by BodunovRA on 19.09.2016.
  */
-public class Monster extends GameCharacter {
+public class Monster extends GameCharacter  implements Cloneable {
 
     public Monster(String _charClass, String _name, int _hp, int _attack, int _defense)
     {

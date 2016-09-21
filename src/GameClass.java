@@ -36,12 +36,38 @@ public class GameClass {
     do
     {
         System.out.println("Текущий раунд: " + currentRound);
-        System.out.println("Ход игрока");
-        System.out.println("1. Атака\n2. Защита\n3. Пропустить ход\n9. Завершить игру");
+        mainHero.ShowInfo();
+        currentMonster.ShowInfo();
+        System.out.println("Ход игрока: 1. Атака 2. Защита 3. Пропустить ход 9. Завершить игру");
         inpInt = sc.nextInt();
+        if (inpInt == 1)
+        {
+            currentMonster.getDamage(mainHero.makeAttack());
+        }
         if (inpInt == 9) break;
+        mainHero.getDamage(currentMonster.makeAttack());
+        currentRound++;
+        if (!mainHero.isAllive)
+        {
+            break;
+        }
+
+        if (!mainHero.isAllive)
+        {
+            System.out.println("Победил " + currentMonster.name);
+        }
+        if (!currentMonster.isAllive)
+        {
+            System.out.println(currentMonster.name + " погиб");
+            mainHero.expGain(currentMonster.getHpMax() * 5);
+            currentMonster = (Monster)monsterPattern[1].clone();
+            System.out.println("На поле боя выходит " + currentMonster.name);
+        }
     }
     while(true);
+
+
+        System.out.println("Игра завершена");
 
     }
     public void initGame()
