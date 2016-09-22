@@ -16,6 +16,7 @@ public class GameCharacter {
     protected int defence;
     protected int critChance;
     protected int level;
+    protected boolean blockStance;
     public boolean isAllive;
 
     public GameCharacter(String _charClass, String _name, int _hp, int _attack, int _defense)
@@ -29,6 +30,7 @@ public class GameCharacter {
         critChance = 10;
         level = 1;
         isAllive = true;
+        blockStance = false;
     }
 
     public int getHpMax()
@@ -39,6 +41,18 @@ public class GameCharacter {
     public void ShowInfo()
     {
     System.out.println("Имя: " + name + " Здоровье: " + hp + "/" + hpMax);
+
+    }
+
+    public void setBlockStance()
+    {
+        blockStance = true;
+        System.out.println(name + " встал в защитную стойку");
+    }
+
+    public void makeNewRound()
+    {
+        blockStance = false;
 
     }
 
@@ -61,6 +75,13 @@ public class GameCharacter {
 
     public void getDamage(int _inputDamage)
     {
+        _inputDamage -= defence;
+        if (blockStance)
+        {
+            System.out.println(name + " дополнительно заблокировал " + defence + " ед. урона в щаитной стойке");
+            _inputDamage -= defence;
+        }
+        if (_inputDamage < 0) _inputDamage = 0;
         System.out.println(name + " получил " + _inputDamage);
         hp -= _inputDamage;
         if(hp < 1)

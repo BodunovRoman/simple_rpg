@@ -22,11 +22,14 @@ public class Hero extends GameCharacter implements Cloneable {
     public void expGain(int _exp)
     {
         currentExp += _exp;
+        System.out.println(name + " получил " + _exp);
         if(currentExp > expToNextLevel)
         {
             currentExp -= expToNextLevel;
             expToNextLevel *= 2;
             level++;
+            attack += 5;
+            System.out.println("Атака героя повысилась до " + attack + " ед. урона");
             hp = hpMax;
             System.out.println(name + " повысил уровень до " + level);
         }
