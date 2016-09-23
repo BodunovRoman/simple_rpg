@@ -6,11 +6,12 @@ public class Hero extends GameCharacter implements Cloneable {
     private int currentExp;
     private int expToNextLevel;
     private int killedMonster;
+    public Inventory myInv;
 
-    public Hero(String _charClass, String _name, int _hp, int _attack, int _defense)
+    public Hero(String _charClass, String _name, int _strength, int _dexterity, int _endurance)
     {
 
-        super(_charClass, _name, _hp, _attack, _defense);
+        super(_charClass, _name, _strength, _dexterity, _endurance);
         InitHero();
     }
 
@@ -19,21 +20,26 @@ public class Hero extends GameCharacter implements Cloneable {
         currentExp = 0;
         expToNextLevel = 1000;
         killedMonster = 0;
+        myInv = new Inventory();
+        myInv.add("Слабое зелье лечения");
+
     }
 
     public void expGain(int _exp)
     {
         currentExp += _exp;
         System.out.println(name + " получил " + _exp);
-        if(currentExp > expToNextLevel)
+        if(currentExp >= expToNextLevel)
         {
             currentExp -= expToNextLevel;
             expToNextLevel *= 2;
             level++;
             attack += 5;
-            System.out.println("Атака героя повысилась до " + attack + " ед. урона");
             hpMax += 50;
-            System.out.println("Запас здоровья героя повысился до " + hpMax);
+            strength += 2;
+            dexterity += 2;
+            endurance += 1;
+            CalculateSecondaryParamiters();
             hp = hpMax;
             System.out.println(name + " повысил уровень до " + level);
         }
@@ -45,9 +51,9 @@ public class Hero extends GameCharacter implements Cloneable {
         killedMonster++;
     }
 
-    public void ShowFullInfo()
+    public void ShowInfo()
     {
-
+        System.out.println("Имя: " + name + " Здоровье: " + hp + "/" + hpMax + " уровень: " + level + " [" + currentExp + "/" + expToNextLevel + "]");
     }
 
     public Object clone()

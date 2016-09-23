@@ -10,33 +10,53 @@ public class GameCharacter {
     }
 
     protected String charClass;
+
     protected int hp;
     protected int hpMax;
-    protected int attack;
-    protected int defence;
-    protected int critChance;
-    protected int level;
-    protected boolean blockStance;
-    public boolean isAllive;
-
-    public GameCharacter(String _charClass, String _name, int _hp, int _attack, int _defense)
-    {
-        name = _name;
-        charClass = _charClass;
-        hpMax = _hp;
-        hp = hpMax;
-        attack = _attack;
-        defence = _defense;
-        critChance = 10;
-        level = 1;
-        isAllive = true;
-        blockStance = false;
-    }
-
     public int getHpMax()
     {
         return hpMax;
     }
+
+    protected int strength;
+    protected int dexterity;
+    protected int endurance;
+
+    protected int attack;
+    protected int defence;
+    protected int critChance;
+    protected int evoidChance;
+    protected float critMultiplier;
+    protected int level;
+    protected boolean blockStance;
+    public boolean isAllive;
+
+    public GameCharacter(String _charClass, String _name, int _strength, int _dexterity, int _endurance)
+    {
+        name = _name;
+        charClass = _charClass;
+        strength = _strength;
+        dexterity = _dexterity;
+        endurance = _endurance;
+
+        CalculateSecondaryParamiters();
+
+        level = 1;
+        hp = hpMax;
+        isAllive = true;
+        blockStance = false;
+    }
+
+    public void CalculateSecondaryParamiters()
+    {
+        attack = strength * 2;
+        hpMax = endurance * 50;
+        defence = (int)((strength + dexterity) / 4.0f);
+        critChance = dexterity * 1;
+        critMultiplier = 1.2f + (float)(dexterity / 20.0f);
+        evoidChance = 8 + (int)(dexterity / 5.0f);
+    }
+
 
     public void ShowInfo()
     {
@@ -48,6 +68,12 @@ public class GameCharacter {
     {
         blockStance = true;
         System.out.println(name + " встал в защитную стойку");
+    }
+
+    public void Cure(int _val)
+    {
+        hp += _val;
+        if (hp>hpMax) hp = hpMax;
     }
 
     public void makeNewRound()
@@ -63,30 +89,45 @@ public class GameCharacter {
         int currentAttack = minAttack + GameClass.rand.nextInt(deltaAttack);
         if (GameClass.rand.nextInt(100) < critChance)
         {
-            currentAttack *= 2;
-            System.out.println(name + " нанес критический урон в размере " + currentAttack + " единиц урона");
+            currentAttack = (int)(currentAttack * critMultiplier);
+            System.out.println(name + " провел критическую атаку на " + currentAttack + " единиц урона");
         }
         else
         {
-            System.out.println(name + " нанес " + currentAttack + " единиц урона");
+            System.out.println(name + " провел атаку на " + currentAttack + " единиц урона");
         }
         return currentAttack;
     }
 
     public void getDamage(int _inputDamage)
     {
-        _inputDamage -= GameClass.rand.nextInt(defence);
-        if (blockStance)
+        if(GameClass.rand.nextInt(100) < evoidChance)
         {
-            System.out.println(name + " дополнительно заблокировал часть урона");
-            _inputDamage -= GameClass.rand.nextInt(defence);
+            System.out.println(name + " увернулся от атаки");
         }
-        if (_inputDamage < 0) _inputDamage = 0;
-        System.out.println(name + " получил " + _inputDamage);
-        hp -= _inputDamage;
-        if(hp < 1)
+        else {
+            _inputDamage -= GameClass.rand.nextInt(defence);
+            if (blockStance) {
+                System.out.println(name + " дополнительно заблокировал часть урона");
+                _inputDamage -= GameClass.rand.nextInt(defence);
+            }
+            if (_inputDamage < 0) _inputDamage = 0;
+            System.out.println(name + " получил " + _inputDamage);
+            hp -= _inputDamage;
+            if (hp < 1) {
+                isAllive = false;
+            }
+            }
+    }
+
+    public void useItem(String _item)
+    {
+        switch(_item)
         {
-            isAllive = false;
+            case "Слабое зелье лечения":
+                Cure(50);
+                System.out.println(name + " пополнил здоровье на 50 ед.");
+                break;
         }
     }
 }

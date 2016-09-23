@@ -3,9 +3,9 @@
  */
 public class Monster extends GameCharacter  implements Cloneable {
 
-    public Monster(String _charClass, String _name, int _hp, int _attack, int _defense)
+    public Monster(String _charClass, String _name, int _strength, int _dexterity, int _endurance)
     {
-        super(_charClass, _name, _hp, _attack, _defense);
+        super(_charClass, _name, _strength, _dexterity, _endurance);
 
     }
 
