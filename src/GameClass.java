@@ -14,6 +14,7 @@ public class GameClass {
     private  Monster currentMonster;
     private int currentRound;
     private int monsterID = 0;
+    private Scanner sc = new Scanner(System.in);
 
     public GameClass()
     {
@@ -22,14 +23,14 @@ public class GameClass {
 
     public void mainGameLoop()
     {
-        Scanner sc = new Scanner(System.in);
+
         int inpInt = 0;
         System.out.println("Игра началась!");
 
         System.out.println("Выберите героя:");
         for (int i = 0; i < 3; i++)
             System.out.println((i+1)+". " + heroPattern[i].getName());
-        inpInt = sc.nextInt();
+        inpInt = getAction(1,3, "");
         mainHero = (Hero)heroPattern[inpInt - 1].clone();
         System.out.println("Вы выбрали " + mainHero.getName());
         currentMonster = (Monster)monsterPattern[monsterID].clone();
@@ -39,9 +40,10 @@ public class GameClass {
         System.out.println("Текущий раунд: " + currentRound);
         mainHero.ShowInfo();
         currentMonster.ShowInfo();
-        System.out.println("Ход игрока: 1. Атака 2. Защита 3. Пропустить ход 9. Завершить игру");
         mainHero.makeNewRound();
-        inpInt = sc.nextInt();
+
+        inpInt = getAction(0, 3, "Ход игрока: 1. Атака 2. Защита 3. Пропустить ход 0. Завершить игру");
+
         if (inpInt == 1)
         {
             currentMonster.getDamage(mainHero.makeAttack());
@@ -52,9 +54,18 @@ public class GameClass {
         }
 
 
-        if (inpInt == 9) break;
+        if (inpInt == 0) break;
         currentMonster.makeNewRound();
-        mainHero.getDamage(currentMonster.makeAttack());
+
+        if (rand.nextInt(100) < 80)
+        {
+            mainHero.getDamage(currentMonster.makeAttack());
+        }
+        else
+        {
+            currentMonster.setBlockStance();
+        }
+
         currentRound++;
         if (!mainHero.isAllive)
         {
@@ -65,6 +76,7 @@ public class GameClass {
         {
             System.out.println(currentMonster.name + " погиб");
             mainHero.expGain(currentMonster.getHpMax() * 2);
+            mainHero.addKillCounter();
             monsterID++;
             if(monsterID < monsterPattern.length)
             {
@@ -102,6 +114,21 @@ public class GameClass {
         monsterPattern[2] = new Monster("Humanoid", "Troll", 490, 50, 1);
 
         currentRound = 1;
+
+    }
+
+    public int getAction(int _min, int _max, String _str)
+    {
+
+        int x = 0;
+
+        do
+        {   if (_str != "") System.out.println(_str);
+            x = sc.nextInt();
+        }
+        while (x < _min || x > _max);
+
+        return x;
 
     }
 }

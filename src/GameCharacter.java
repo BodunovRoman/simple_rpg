@@ -75,11 +75,11 @@ public class GameCharacter {
 
     public void getDamage(int _inputDamage)
     {
-        _inputDamage -= defence;
+        _inputDamage -= GameClass.rand.nextInt(defence);
         if (blockStance)
         {
-            System.out.println(name + " дополнительно заблокировал " + defence + " ед. урона в щаитной стойке");
-            _inputDamage -= defence;
+            System.out.println(name + " дополнительно заблокировал часть урона");
+            _inputDamage -= GameClass.rand.nextInt(defence);
         }
         if (_inputDamage < 0) _inputDamage = 0;
         System.out.println(name + " получил " + _inputDamage);

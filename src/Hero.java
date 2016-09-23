@@ -5,6 +5,7 @@ public class Hero extends GameCharacter implements Cloneable {
 
     private int currentExp;
     private int expToNextLevel;
+    private int killedMonster;
 
     public Hero(String _charClass, String _name, int _hp, int _attack, int _defense)
     {
@@ -17,6 +18,7 @@ public class Hero extends GameCharacter implements Cloneable {
     {
         currentExp = 0;
         expToNextLevel = 1000;
+        killedMonster = 0;
     }
 
     public void expGain(int _exp)
@@ -30,10 +32,17 @@ public class Hero extends GameCharacter implements Cloneable {
             level++;
             attack += 5;
             System.out.println("Атака героя повысилась до " + attack + " ед. урона");
+            hpMax += 50;
+            System.out.println("Запас здоровья героя повысился до " + hpMax);
             hp = hpMax;
             System.out.println(name + " повысил уровень до " + level);
         }
 
+    }
+
+    public void addKillCounter()
+    {
+        killedMonster++;
     }
 
     public void ShowFullInfo()
