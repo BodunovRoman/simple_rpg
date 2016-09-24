@@ -21,4 +21,15 @@ public class Monster extends GameCharacter  implements Cloneable {
         }
 
     }
+
+    public void lvlUp(int _1)
+    {
+        ShowInfo();
+        strength += 2*_1;
+        dexterity += 1*_1;
+        endurance += 3*_1;
+        CalculateSecondaryParamiters();
+        hp = hpMax;
+        ShowInfo();
+    }
 }

@@ -21,7 +21,7 @@ public class Hero extends GameCharacter implements Cloneable {
         expToNextLevel = 1000;
         killedMonster = 0;
         myInv = new Inventory();
-        myInv.add("Слабое зелье лечения");
+        myInv.add(new Item("Слабое зелье лечения", Item.ItemType.Consumables));
 
     }
 

@@ -86,8 +86,8 @@ public class GameCharacter {
     {
         int minAttack = (int)(attack * 0.8f);
         int deltaAttack = (int)(attack * 0.4f);
-        int currentAttack = minAttack + GameClass.rand.nextInt(deltaAttack);
-        if (GameClass.rand.nextInt(100) < critChance)
+        int currentAttack = minAttack + Utilits.rand.nextInt(deltaAttack);
+        if (Utilits.rand.nextInt(100) < critChance)
         {
             currentAttack = (int)(currentAttack * critMultiplier);
             System.out.println(name + " провел критическую атаку на " + currentAttack + " единиц урона");
@@ -101,15 +101,15 @@ public class GameCharacter {
 
     public void getDamage(int _inputDamage)
     {
-        if(GameClass.rand.nextInt(100) < evoidChance)
+        if(Utilits.rand.nextInt(100) < evoidChance)
         {
             System.out.println(name + " увернулся от атаки");
         }
         else {
-            _inputDamage -= GameClass.rand.nextInt(defence);
+            _inputDamage -= Utilits.rand.nextInt(defence);
             if (blockStance) {
                 System.out.println(name + " дополнительно заблокировал часть урона");
-                _inputDamage -= GameClass.rand.nextInt(defence);
+                _inputDamage -= Utilits.rand.nextInt(defence);
             }
             if (_inputDamage < 0) _inputDamage = 0;
             System.out.println(name + " получил " + _inputDamage);
