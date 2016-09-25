@@ -18,6 +18,10 @@ public class GameCharacter {
         return hpMax;
     }
 
+    protected int base_strength;
+    protected int base_dexterity;
+    protected int base_endurance;
+
     protected int strength;
     protected int dexterity;
     protected int endurance;
@@ -31,10 +35,16 @@ public class GameCharacter {
     protected boolean blockStance;
     public boolean isAllive;
 
+    protected Inventory myInv;
+
     public GameCharacter(String _charClass, String _name, int _strength, int _dexterity, int _endurance)
     {
         name = _name;
         charClass = _charClass;
+        base_strength = _strength;
+        base_dexterity = _dexterity;
+        base_endurance = _endurance;
+
         strength = _strength;
         dexterity = _dexterity;
         endurance = _endurance;
@@ -74,6 +84,11 @@ public class GameCharacter {
     {
         hp += _val;
         if (hp>hpMax) hp = hpMax;
+    }
+
+    public void fullHeal()
+    {
+        hp = hpMax;
     }
 
     public void makeNewRound()
@@ -125,8 +140,12 @@ public class GameCharacter {
         switch(_item)
         {
             case "Слабое зелье лечения":
-                Cure(50);
-                System.out.println(name + " пополнил здоровье на 50 ед.");
+                Cure(120);
+                System.out.println(name + " пополнил здоровье на 120 ед.");
+                break;
+            case "Слабый камень здоровья":
+                Cure(60);
+                System.out.println(name + " пополнил здоровье на 60 ед.");
                 break;
         }
     }

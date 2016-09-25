@@ -5,7 +5,7 @@
 
 public class Item {
 
-    public static enum ItemType {Consumables, Qest, Armor, Weapon};
+    public static enum ItemType {Consumables, infConsumables, Qest, Armor, Weapon};
 
     private String name;
     private ItemType type;
@@ -13,6 +13,11 @@ public class Item {
     public String getName()
     {
         return name;
+    }
+
+    public ItemType getType()
+    {
+        return type;
     }
 
     public Item(String _name, ItemType _type)

@@ -6,7 +6,9 @@ public class Monster extends GameCharacter  implements Cloneable {
     public Monster(String _charClass, String _name, int _strength, int _dexterity, int _endurance)
     {
         super(_charClass, _name, _strength, _dexterity, _endurance);
-
+        myInv = new Inventory();
+        myInv.add(new Item("Слабое зелье лечения", Item.ItemType.Consumables));
+        myInv.addSomeCoins(100);
     }
 
     public Object clone()
@@ -24,12 +26,14 @@ public class Monster extends GameCharacter  implements Cloneable {
 
     public void lvlUp(int _1)
     {
-        ShowInfo();
-        strength += 2*_1;
-        dexterity += 1*_1;
-        endurance += 3*_1;
-        CalculateSecondaryParamiters();
-        hp = hpMax;
-        ShowInfo();
+        for (int i=0; i<_1;i++) {
+            ShowInfo();
+            strength += base_strength * 0.3f;
+            dexterity += base_dexterity * 0.3f;
+            endurance += base_endurance * 0.3f;
+            CalculateSecondaryParamiters();
+            hp = hpMax;
+            ShowInfo();
+        }
     }
 }

@@ -15,10 +15,15 @@ public class Inventory {
         inv = new ArrayList<>();
     }
 
-    public void addSomeCoins(int amount)
+    public void addSomeCoins(int amount){gold += amount;}
+    public void spendCoins (int amount){gold -= amount;}
+
+    public boolean isCoinsEnough(int amount)
     {
-        gold += amount;
+        if(gold>=amount) return true;
+        return false;
     }
+
 
     public void add(Item _newItem)
     {
@@ -37,6 +42,7 @@ public class Inventory {
         {
             System.out.println("Инвентарь пуст");
         }
+        System.out.println("Золото: " + gold);
         System.out.println("0. Закончить осмотр");
     }
 
@@ -45,6 +51,7 @@ public class Inventory {
         if (_itemID == 0)
             return "";
         String a = inv.get(_itemID - 1).getName();
+        if(inv.get(_itemID - 1).getType() == Item.ItemType.Consumables)
         inv.remove(_itemID - 1);
         return a;
     }
@@ -52,6 +59,15 @@ public class Inventory {
     public int getSize()
     {
         return inv.size();
+    }
+
+    public void transferAllItemsToAnotherInventory(Inventory _inv)
+    {
+        for (int i=0; i<inv.size(); i++)
+        {
+            _inv.add(inv.get(i));
+            _inv.addSomeCoins(gold);
+        }
     }
 
 }
